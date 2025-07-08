@@ -3,8 +3,8 @@ Central app runner for Weather Dashboard
 This script acts as the main entry point to call all major modules (API, data processing, UI, etc.)
 Add new features here as your project grows.
 """
-import os
-import sys
+# import os
+# import sys
 
 # Centralized imports
 import imports
@@ -14,7 +14,7 @@ SRC_PATH = os.path.join(os.path.dirname(__file__), 'src')
 if SRC_PATH not in sys.path:
     sys.path.append(SRC_PATH)
 
-from API.API_call import get_weather_data, api_key
+from src.API.API_call import get_weather_data, api_key
 from DataProcessing.data_to_SQL import save_weather_to_sqlite
 
 # Import the main UI (if you want to launch the GUI)

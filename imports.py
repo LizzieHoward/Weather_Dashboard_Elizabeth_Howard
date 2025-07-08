@@ -15,7 +15,7 @@ import customtkinter as ctk
 
 # Project-specific imports (relative to src)
 # These will work if sys.path is set up correctly in app_runner.py
-from API.API_call import get_weather_data, api_key
+from src.API.API_call import get_weather_data, api_key
 from DataProcessing.data_to_SQL import save_weather_to_sqlite
 
 # Optionally, import main UI
