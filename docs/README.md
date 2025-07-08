@@ -49,5 +49,27 @@ WEATHER_DASHBOARD_ELIZABETH_HOWARD/
 
 # copy and paste bank for file structure above
 └── 
-├──
+
+
+## Required Imports
+
+The following Python imports are used throughout the Weather Dashboard app:
+
+**Standard Library:**
+- os
+- sys
+- datetime
+- sqlite3
+
+**Third-Party Packages:**
+- requests
+- python-dotenv (`from dotenv import load_dotenv`)
+- customtkinter as ctk
+
+**Project Modules:**
+- from API.API_call import get_weather_data, api_key
+- from DataProcessing.data_to_SQL import save_weather_to_sqlite
+- import main
+
+Make sure all third-party packages are installed (see `requirements.txt`).
 
