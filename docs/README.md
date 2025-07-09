@@ -1,6 +1,6 @@
 # Weather_Dashboard_Elizabeth_Howard
 
-
+# To Start the Weather Dashboard app, open main.py and run in python. Pip install reqirements.txt if needed. 
 
 
 
