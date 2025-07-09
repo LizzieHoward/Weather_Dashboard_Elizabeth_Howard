@@ -5,10 +5,6 @@ import customtkinter as ctk
 ctk.set_appearance_mode("System")  
 ctk.set_default_color_theme("blue")  # Example color theme")  
 
-# Create main application window, CTk = CustomTkinter version of Tk
-root = ctk.CTk()  
-root.title("Weather Dashboard")
-root.geometry("800x600")  
 
 
 #add in responsive design layout
