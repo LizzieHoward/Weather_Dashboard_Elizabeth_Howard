@@ -1,7 +1,7 @@
 import unittest
 import os
 import sqlite3
-from src.DB.save_weather_to_sqlite import WeatherDB
+from src.DataProcessing.data_to_SQL import WeatherDB
 
 class TestWeatherDB(unittest.TestCase):
     def setUp(self):
