@@ -1,9 +1,10 @@
 # Start the root GUI window
 import customtkinter as ctk # CustomTkinter for modern UI
 
-class WeatherDashboard(ctk.CTk): # Create main application window, CTk = CustomTkinter version of Tk
-    def __init__(self):
+class WeatherDashboard(ctk.CTk):
+    def __init__(self, controller=None):
         super().__init__()
+        self.controller = controller  # Allow passing a controller for separation of concerns
 
         # Window config
         ctk.set_appearance_mode("System")
@@ -34,25 +35,33 @@ class WeatherDashboard(ctk.CTk): # Create main application window, CTk = CustomT
             self.show_error("Please enter a city name.")
             return
 
-        # Replace with actual API + DB save later
-        print(f"Searching weather for: {city}")
-        dummy_data = {
-            "name": city,
-            "main": {"temp": 21.5, "humidity": 50},
-            "weather": [{"description": "clear sky"}],
-            "wind": {"speed": 3.2}
-        }
-        self.display_weather(dummy_data)
+        if self.controller:
+            # Use controller to fetch real data
+            data = self.controller.fetch_and_store_weather(city)
+            if data:
+                self.display_weather(data)
+            else:
+                self.show_error(f"Could not fetch weather for {city}.")
+        else:
+            # Fallback: dummy data for standalone testing
+            print(f"Searching weather for: {city}")
+            dummy_data = {
+                "name": city,
+                "main": {"temp": 21.5, "humidity": 50},
+                "weather": [{"description": "clear sky"}],
+                "wind": {"speed": 3.2}
+            }
+            self.display_weather(dummy_data)
 
     def display_weather(self, data):
         for widget in self.result_frame.winfo_children():
             widget.destroy()
 
-        city_name = data.get("name")
-        temperature = data["main"]["temp"]
-        humidity = data["main"]["humidity"]
-        description = data["weather"][0]["description"].capitalize()
-        wind_speed = data["wind"]["speed"]
+        city_name = data.get("name", "N/A")
+        temperature = data.get("main", {}).get("temp", "N/A")
+        humidity = data.get("main", {}).get("humidity", "N/A")
+        description = data.get("weather", [{}])[0].get("description", "N/A").capitalize()
+        wind_speed = data.get("wind", {}).get("speed", "N/A")
 
         ctk.CTkLabel(
             self.result_frame,
@@ -72,8 +81,8 @@ class WeatherDashboard(ctk.CTk): # Create main application window, CTk = CustomT
         label = ctk.CTkLabel(frame, text=label_text + ":", anchor="w")
         label.pack(side="left", padx=5)
 
-        button = ctk.CTkButton(frame, text=str(value_text))
-        button.pack(side="right", padx=5)
+        value = ctk.CTkLabel(frame, text=str(value_text), anchor="e")
+        value.pack(side="right", padx=5)
 
     def show_error(self, message):
         error_window = ctk.CTkToplevel(self)
