@@ -69,8 +69,8 @@ class WeatherDashboard(ctk.CTk):
             font=("Arial", 16, "bold")
         ).pack(pady=10)
 
-        self.make_row("Temperature (°C)", temperature)
-        self.make_row("Humidity (%)", humidity)
+        self.make_row("Temperature (°F)", temperature)
+        self.make_row("Humidity ", humidity, "%")
         self.make_row("Description", description)
         self.make_row("Wind Speed (m/s)", wind_speed)
 
