@@ -67,22 +67,23 @@ class WeatherDashboard(ctk.CTk):
             self.result_frame,
             text=f"Weather in {city_name}",
             font=("Arial", 16, "bold")
-        ).pack(pady=10)
+        ).grid(pady=10)
 
         self.make_row("Temperature (°F)", temperature)
         self.make_row("Humidity ", humidity, "%")
         self.make_row("Description", description)
         self.make_row("Wind Speed (m/s)", wind_speed)
 
-    def make_row(self, label_text, value_text):
+    def make_row(self, label_text, value_text, unit=None):
         frame = ctk.CTkFrame(self.result_frame)
-        frame.pack(pady=5, padx=10, fill="x")
+        frame.grid(pady=5, padx=10, fill="x")
 
         label = ctk.CTkLabel(frame, text=label_text + ":", anchor="w")
-        label.pack(side="left", padx=5)
+        label.grid(side="left", padx=5)
 
-        value = ctk.CTkLabel(frame, text=str(value_text), anchor="e")
-        value.pack(side="right", padx=5)
+        display_text = f"{value_text} {unit}" if unit else str(value_text)
+        value = ctk.CTkLabel(frame, text=display_text, anchor="e")
+        value.grid(side="right", padx=5)
 
     def show_error(self, message):
         error_window = ctk.CTkToplevel(self)
