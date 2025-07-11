@@ -50,7 +50,7 @@ class WeatherAPI:
         params = {
             'q': city,
             'appid': self.api_key,
-            'units': 'metric'
+            'units': 'imperial'  # Use 'metric' for Celsius
         }
         
         try:
