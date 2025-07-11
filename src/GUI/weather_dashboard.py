@@ -25,21 +25,21 @@ class WeatherDashboard(ctk.CTk):
 
         self._build_widgets()
 
-    def _build_widgets(self):
-        """Create and place widgets"""
-        self.city_label = ctk.CTkLabel(self, text="Enter City:", font=("Arial", 14))
-        self.city_label.pack(pady=10)
+    # def _build_widgets(self):
+    #     """Create and place widgets"""
+    #     self.city_label = ctk.CTkLabel(self, text="Enter City:", font=("Arial", 14))
+    #     self.city_label.pack(pady=10)
 
-        self.city_entry = ctk.CTkEntry(self, width=200)
-        self.city_entry.pack(pady=5)
+    #     self.city_entry = ctk.CTkEntry(self, width=200)
+    #     self.city_entry.pack(pady=5)
 
-        self.fetch_button = ctk.CTkButton(
-            self, text="Get Weather", command=self.fetch_weather
-        )
-        self.fetch_button.pack(pady=10)
+    #     self.fetch_button = ctk.CTkButton(
+    #         self, text="Get Weather", command=self.fetch_weather
+    #     )
+    #     self.fetch_button.pack(pady=10)
 
-        self.result_frame = ctk.CTkFrame(self)
-        self.result_frame.pack(pady=20, padx=20, fill="both", expand=True)
+    #     self.result_frame = ctk.CTkFrame(self)
+    #     self.result_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
     def fetch_weather(self):
         """Handle button click to fetch weather"""
