@@ -1,7 +1,7 @@
 import customtkinter as ctk
-from app.frames.search_frame import SearchFrame
-from app.frames.results_frame import ResultsFrame
-from app.frames.graph_frame import GraphFrame
+from src.GUI.search_frame import SearchFrame
+from src.GUI.base_stats_frame import ResultsFrame
+from src.GUI.graph_frame import GraphFrame
 
 class WeatherDashboard(ctk.CTk):
     def __init__(self, controller=None):
