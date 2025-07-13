@@ -1,5 +1,8 @@
 # Start the root GUI window
 import customtkinter as ctk # CustomTkinter for modern UI
+import src.API.API_call as WeatherAPI  #  API module for fetching weather data
+from src.DataProcessing.data_to_SQL import WeatherDB # Data processing module for handling weather data
+
 
 class WeatherDashboard(ctk.CTk):
     def __init__(self, controller=None):
