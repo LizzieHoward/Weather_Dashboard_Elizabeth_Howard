@@ -24,7 +24,7 @@ class WeatherDashboard(ctk.CTk):
         self.search_frame = ctk.CTkFrame(self.main_frame)
         self.search_frame.grid(fill="x", padx=10, pady=10)
 
-        self.city_label = grid.CTkLabel(self.search_frame, text="Enter City:", font=("Arial", 14))
+        self.city_label = ctk.CTkLabel(self.search_frame, text="Enter City:", font=("Arial", 14))
         self.city_label.grid(side="left", padx=10)
 
         self.city_entry = ctk.CTkEntry(self.search_frame, width=200)
