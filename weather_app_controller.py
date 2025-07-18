@@ -11,7 +11,7 @@ if SRC_PATH not in sys.path:
 
 from src.API.API_call import WeatherAPI
 from src.DataProcessing.data_to_SQL import WeatherDB
-from Notes.weather_dashboard_2 import WeatherDashboard
+from GUI.DisplayTabs.root_window import RootWindow
 from src.ErrorHandling.error_handling_entry import CityNameHandler
 
 class WeatherAppController:
