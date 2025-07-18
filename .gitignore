@@ -194,4 +194,4 @@ cython_debug/
 .cursorindexingignore
 
 # API
-API_key.env
+.env
