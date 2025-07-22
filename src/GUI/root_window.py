@@ -4,9 +4,9 @@ import customtkinter as ctk
 from tkinter import ttk
 
 # Import your tabs
-from weather_dashboard_tab import WeatherDashboardTab
-#from weather_alerts_tab import WeatherAlertsTab
-#from group_project_tab import GroupProjectTab
+from src.GUI.weather_dashboard_tab import WeatherDashboardTab
+#from src.GUI.weather_alerts_tab import WeatherAlertsTab
+#from src.GUI.group_project_tab import GroupProjectTab
 
 
 class RootWindow(ctk.CTk):

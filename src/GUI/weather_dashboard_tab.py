@@ -34,7 +34,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         welcome_label = ctk.CTkLabel(
             self,
             text="Welcome to Weather Dashboard",
-            font=("Arial", 20, "bold")
+            font=("Segoe UI", 20, "bold")
         )
         welcome_label.grid(row=0, column=0, columnspan=2, pady=10)
 
@@ -50,7 +50,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         self.search_frame = ctk.CTkFrame(self.main_frame)
         self.search_frame.grid(row=0, column=0, sticky="ew", padx=10, pady=10)
 
-        self.city_label = ctk.CTkLabel(self.search_frame, text="Enter City:", font=("Arial", 14))
+        self.city_label = ctk.CTkLabel(self.search_frame, text="Enter City:", font=("Segoe UI", 14))
         self.city_label.grid(row=0, column=0, padx=10)
 
         self.city_entry = ctk.CTkEntry(self.search_frame, width=200)
@@ -61,7 +61,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         self.fetch_button.grid(row=0, column=2, padx=10)
 
         # Loading indicator
-        self.loading_label = ctk.CTkLabel(self.main_frame, text="", font=("Arial", 12))
+        self.loading_label = ctk.CTkLabel(self.main_frame, text="", font=("Segoe UI", 12))
         self.loading_label.grid(row=1, column=0, pady=5)
 
         # Results section
@@ -123,7 +123,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         title = ctk.CTkLabel(
             self.result_frame,
             text=f"Weather in {city_name}",
-            font=("Arial", 24, "bold")
+            font=("Segoe UI", 24, "bold")
         )
         title.grid(pady=(20, 30))
 
@@ -139,10 +139,10 @@ class WeatherDashboardTab(ctk.CTkFrame):
         frame = ctk.CTkFrame(parent)
         frame.pack(fill="x", pady=5)
 
-        label = ctk.CTkLabel(frame, text=f"{label_text}:", font=("Arial", 14), anchor="w")
+        label = ctk.CTkLabel(frame, text=f"{label_text}:", font=("Segoe UI", 14), anchor="w")
         label.pack(side="left", padx=10)
 
-        value = ctk.CTkLabel(frame, text=value_text, font=("Arial", 14), anchor="e")
+        value = ctk.CTkLabel(frame, text=value_text, font=("Segoe UI", 14), anchor="e")
         value.pack(side="right", padx=10)
 
     def kelvin_to_fahrenheit(self, kelvin):
@@ -167,7 +167,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
             error_window,
             text=message,
             text_color="red",
-            font=("Arial", 14)
+            font=("Segoe UI", 14)
         )
         message_label.grid(pady=20)
 
