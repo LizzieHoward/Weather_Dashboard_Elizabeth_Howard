@@ -100,7 +100,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
                 # Fallback dummy data
                 dummy_data = {
                     "name": city,
-                    "main": {"temp": 294.65, "humidity": 50},
+                    "main": {"temp": 30, "humidity": 50},
                     "weather": [{"description": "clear sky"}],
                     "wind": {"speed": 3.2}
                 }
@@ -115,7 +115,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
 
         city_name = data.get("name", "N/A")
         temp_k = data.get("main", {}).get("temp", "N/A")
-        temperature = self.kelvin_to_fahrenheit(temp_k)
+        temperature = data.get("main", {}).get("temp", "N/A")
         humidity = data.get("main", {}).get("humidity", "N/A")
         description = data.get("weather", [{}])[0].get("description", "N/A").capitalize()
         wind_speed = data.get("wind", {}).get("speed", "N/A")
@@ -130,7 +130,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         details_frame = ctk.CTkFrame(self.result_frame)
         details_frame.grid(padx=30, pady=10)
 
-        self.make_row(details_frame, "Temperature", f"{temperature}°F")
+        self.make_row(details_frame, "Temperature", f"{temperature}°C")
         self.make_row(details_frame, "Humidity", f"{humidity}%")
         self.make_row(details_frame, "Description", description)
         self.make_row(details_frame, "Wind Speed", f"{wind_speed} m/s")
@@ -145,12 +145,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         value = ctk.CTkLabel(frame, text=value_text, font=("Segoe UI", 14), anchor="e")
         value.pack(side="right", padx=10)
 
-    def kelvin_to_fahrenheit(self, kelvin):
-        try:
-            return round(((float(kelvin) - 273.15) * 9/5 + 32), 1)
-        except (ValueError, TypeError):
-            return "N/A"
-
+ 
     def show_error(self, message):
         error_window = ctk.CTkToplevel(self)
         error_window.title("Error")
