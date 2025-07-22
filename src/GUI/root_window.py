@@ -5,8 +5,8 @@ from tkinter import ttk
 
 # Import your tabs
 from weather_dashboard_tab import WeatherDashboardTab
-from weather_alerts_tab import WeatherAlertsTab
-from group_project_tab import GroupProjectTab
+#from weather_alerts_tab import WeatherAlertsTab
+#from group_project_tab import GroupProjectTab
 
 
 class RootWindow(ctk.CTk):
@@ -34,12 +34,12 @@ class RootWindow(ctk.CTk):
         self.notebook.add(dashboard_tab, text="Weather Dashboard")
 
         # Weather Alerts tab
-        alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)
-        self.notebook.add(alerts_tab, text="Weather Alerts")
+        # alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)
+        # self.notebook.add(alerts_tab, text="Weather Alerts")
 
-        # Group Project tab
-        group_tab = GroupProjectTab(self.notebook, controller=self.controller)
-        self.notebook.add(group_tab, text="Group Project")
+        # # Group Project tab
+        # group_tab = GroupProjectTab(self.notebook, controller=self.controller)
+        # self.notebook.add(group_tab, text="Group Project")
 
 
 if __name__ == "__main__":

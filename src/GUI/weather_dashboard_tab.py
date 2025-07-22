@@ -22,7 +22,7 @@
 # weather_dashboard_tab.py
 
 import customtkinter as ctk  # CustomTkinter for modern UI
-import tabs  # assuming you have a tabs package to keep it consistent
+#import tabs  # assuming you have a tabs package to keep it consistent
 
 
 class WeatherDashboardTab(ctk.CTkFrame):
