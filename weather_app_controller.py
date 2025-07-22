@@ -22,7 +22,7 @@ class WeatherAppController:
     def __init__(self):
         print("Welcome to the Weather Dashboard!")
         self.db = WeatherDB()
-        self.gui = WeatherDashboard(controller=self)
+        self.gui = RootWindow(controller=self)
         self.api = WeatherAPI()  # Use the new class
         print("here?")
         
