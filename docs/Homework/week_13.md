@@ -1,9 +1,3 @@
-W13 After-Class Assignment 
-Due Sunday by 11:59pm 
-Points 50 
-
-Submitting a text entry box, a website url, a media recording, or a file upload 
-
 📌 Overview
 This assignment combines progress checkpoints from Weeks 12 and 13. You'll submit your GitHub repo, UI design mockups, and a short demo of your API integration. This helps instructors check on your progress, give feedback, and support you in staying on track.
 

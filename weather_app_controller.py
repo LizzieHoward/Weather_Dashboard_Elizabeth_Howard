@@ -11,7 +11,7 @@ if SRC_PATH not in sys.path:
 
 from src.API.API_call import WeatherAPI
 from src.DataProcessing.data_to_SQL import WeatherDB
-from src.GUI.weather_dashboard import WeatherDashboard
+from src.GUI.root_window import RootWindow  # Updated to use full path
 from src.ErrorHandling.error_handling_entry import CityNameHandler
 
 class WeatherAppController:
@@ -22,7 +22,7 @@ class WeatherAppController:
     def __init__(self):
         print("Welcome to the Weather Dashboard!")
         self.db = WeatherDB()
-        self.gui = WeatherDashboard(controller=self)
+        self.gui = RootWindow(controller=self)
         self.api = WeatherAPI()  # Use the new class
         print("here?")
         
