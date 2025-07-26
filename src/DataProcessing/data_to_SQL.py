@@ -1,60 +1,62 @@
-# Write the Data to SQLite database
-# Save the OpenWeatherMap weather data to SQLite database
+import requests
 import sqlite3
-from datetime import datetime
 import os
+from dotenv import load_dotenv
+from datetime import datetime
 
-class WeatherDB:
+
+
+# --- Save to SQLite using OWM field names ---
+def save_weather_to_sqlite(data, db_path="Capstone/Weather_Dashboard_Elizabeth_Howard/weather_data.db"):
     """
-    Handles saving OpenWeatherMap weather data to SQLite.
+    Save OpenWeatherMap API data to SQLite using OWM field names.
     """
+    # Map OWM fields (use raw keys where possible)
+    record = {
+        "name": data.get("name"),                              # city name
+        "temp": data["main"]["temp"],                          # temperature
+        "humidity": data["main"]["humidity"],                  # humidity
+        "description": data["weather"][0]["description"],      # weather description
+        "speed": data["wind"]["speed"],                        # wind speed
+        "dt": datetime.utcfromtimestamp(data["dt"]).strftime("%Y-%m-%d %H:%M:%S")  # observation time from OWM
+    }
 
-    def __init__(self, db_path=os.path.join(os.path.dirname(__file__), '..', '..', 'Data', 'weather_data.db')):
-        self.db_path = db_path
-        self._ensure_table_exists()
+    # Connect to DB
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
-    def _ensure_table_exists(self):
-        with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                CREATE TABLE IF NOT EXISTS weather (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    temp REAL,
-                    humidity INTEGER,
-                    description TEXT,
-                    speed REAL,
-                    dt TEXT
-                )
-            """)
-            conn.commit()
+    # Create table using OWM field names
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS weather (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            temp REAL,
+            humidity INTEGER,
+            description TEXT,
+            speed REAL,
+            dt TEXT
+        )
+    """)
 
-    def save(self, data: dict):
-        """
-        Save one weather data record into the database.
-        """
-        record = {
-            "name": data.get("name"),
-            "temp": data["main"]["temp"],
-            "humidity": data["main"]["humidity"],
-            "description": data["weather"][0]["description"],
-            "speed": data["wind"]["speed"],
-            "dt": datetime.utcfromtimestamp(data["dt"]).strftime("%Y-%m-%d %H:%M:%S")
-        }
+    # Insert record
+    cursor.execute("""
+        INSERT INTO weather (name, temp, humidity, description, speed, dt)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        record["name"],
+        record["temp"],
+        record["humidity"],
+        record["description"],
+        record["speed"],
+        record["dt"]
+    ))
 
-        with sqlite3.connect(self.db_path) as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO weather (name, temp, humidity, description, speed, dt)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (
-                record["name"],
-                record["temp"],
-                record["humidity"],
-                record["description"],
-                record["speed"],
-                record["dt"]
-            ))
-            conn.commit()
+    conn.commit()
+    conn.close()
+    print(f"Weather for {record['name']} saved to SQLite.")
 
-        print(f"Weather for {record['name']} saved to SQLite.")
+# # --- Example usage ---
+# if __name__ == "__main__":
+#     city = "Boston"
+#     data = get_weather_data(city, api_key)
+#     save_weather_to_sqlite(data)

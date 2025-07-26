@@ -43,6 +43,9 @@ class WeatherAppController:
             print(f"Failed to fetch weather data for {norm_city}.")
             return None
 
+    def get_last_weather_data(self):
+        return self.cached_weather_data
+
     def run(self):
         self.gui.mainloop()
 

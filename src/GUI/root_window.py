@@ -3,9 +3,11 @@
 import customtkinter as ctk
 from tkinter import ttk
 
+
+
 # Import your tabs
 from src.GUI.weather_dashboard_tab import WeatherDashboardTab
-#from src.GUI.weather_alerts_tab import WeatherAlertsTab
+from src.GUI.weather_alerts_tab import WeatherAlertsTab
 #from src.GUI.group_project_tab import GroupProjectTab
 
 
@@ -33,9 +35,9 @@ class RootWindow(ctk.CTk):
         dashboard_tab = WeatherDashboardTab(self.notebook, controller=self.controller)
         self.notebook.add(dashboard_tab, text="Weather Dashboard")
 
-        # Weather Alerts tab
-        # alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)
-        # self.notebook.add(alerts_tab, text="Weather Alerts")
+        #Weather Alerts tab
+        alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)
+        self.notebook.add(alerts_tab, text="Weather Alerts")
 
         # # Group Project tab
         # group_tab = GroupProjectTab(self.notebook, controller=self.controller)
