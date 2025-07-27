@@ -1,5 +1,4 @@
-# requirements.txt
-# Add your dependencies here in Week 16
+
 requests
 python-dotenv
 customtkinter

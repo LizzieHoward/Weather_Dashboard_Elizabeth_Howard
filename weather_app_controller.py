@@ -9,6 +9,7 @@ SRC_PATH = os.path.join(os.path.dirname(__file__), 'src')
 if SRC_PATH not in sys.path:
     sys.path.append(SRC_PATH)
 
+from DataProcessing.data_query import fetch_last_data_entry
 from src.API.API_call import WeatherAPI
 from src.DataProcessing.data_to_SQL import WeatherDB
 from src.GUI.root_window import RootWindow  # Updated to use full path
@@ -24,6 +25,7 @@ class WeatherAppController:
         self.db = WeatherDB()
         self.gui = RootWindow(controller=self)
         self.api = WeatherAPI()  # Use the new class
+        # self.cached_weather_data = None
         print("here?")
         
     def fetch_and_store_weather(self, city):
@@ -44,7 +46,7 @@ class WeatherAppController:
             return None
 
     def get_last_weather_data(self):
-        return self.cached_weather_data
+        return fetch_last_data_entry()
 
     def run(self):
         self.gui.mainloop()
