@@ -23,15 +23,25 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
 
         self.alert_labels = []
 
-        #self.display_alerts()
+    def refresh_alerts(self):
+        print("[DEBUG] Refreshing alerts...")
+        self.display_alerts()
 
     def display_alerts(self):
-        # Clear old alerts
+        print("[DEBUG] Refreshing alerts...")
         for label in self.alert_labels:
             label.destroy()
         self.alert_labels.clear()
 
         if not self.controller:
+            print("[DEBUG] No controller available")
+            no_controller = ctk.CTkLabel(
+                self.alerts_frame,
+                text="No controller available.",
+                font=("Arial", 14)
+            )
+            no_controller.pack(pady=10)
+            self.alert_labels.append(no_controller)
             return
 
         # Now controller.get_last_weather_data() uses the dashboard tab's city_entry

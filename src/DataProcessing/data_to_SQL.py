@@ -3,14 +3,15 @@ import sqlite3
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+from pathlib import Path
 
 class WeatherDB:
     def __init__(self, db_path="Weather_Dashboard_Elizabeth_Howard/Data/weather_data.db"):
         if db_path is None:
-            project_root = Path(_file_).parent.parent.parent
+            project_root = Path(__file__).parent.parent.parent
             data_folder = project_root / "Data"
             data_folder.mkdir(exist_ok=True)
-            self.db_path = os.getenv("DATABASE_PATH", "Data/weather_data.db")
+            self.db_path = str(data_folder / "weather_data.db")
         else:
             self.db_path = db_path
 
@@ -24,7 +25,7 @@ class WeatherDB:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
 
-             cursor.execute("""
+            cursor.execute("""
                 CREATE TABLE IF NOT EXISTS weather (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT,
