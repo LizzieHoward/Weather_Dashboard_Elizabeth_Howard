@@ -109,14 +109,15 @@ class WeatherAppController:
         data = self.api.get_weather_data(norm_city)
 
         if data and "main" in data and "weather" in data:
-            self.db.save(data)
+        # Fix: Use the correct method name
+            self.db.save_weather_to_sqlite(data)  # Instead of self.db.save(data)
             print(f"Weather for {norm_city} saved to database.")
-            
-            # Updates alerts tab after fetching new data from the API call
-            if self.alerts_tab:
-                self.alerts_tab.display_alerts()
-            return data
-        
+
+        # After successfully fetching, refresh alerts tab if available
+            if hasattr(self, 'alerts_tab') and self.alerts_tab:
+                self.alerts_tab.refresh_alerts()
+            return data 
+    
         else:
             print(f"Failed to fetch weather data for {norm_city}.")
             return None
