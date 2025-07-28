@@ -1,15 +1,10 @@
 # root_window.py
 
 import customtkinter as ctk
-from tkinter import ttk
-
-
 
 # Import your tabs
 from src.GUI.weather_dashboard_tab import WeatherDashboardTab
 from src.GUI.weather_alerts_tab import WeatherAlertsTab
-#from src.GUI.group_project_tab import GroupProjectTab
-
 
 class RootWindow(ctk.CTk):
     def __init__(self, controller=None):
@@ -23,27 +18,28 @@ class RootWindow(ctk.CTk):
         self.geometry("1000x700")
         self.minsize(800, 500)
 
-        # Main notebook
-        self.notebook = ttk.Notebook(self)
-        self.notebook.pack(fill="both", expand=True, padx=10, pady=10)
+        # Use CTkTabview instead of ttk.Notebook
+        self.tabview = ctk.CTkTabview(self)
+        self.tabview.pack(fill="both", expand=True, padx=10, pady=10)
 
         # Add tabs
         self.add_tabs()
 
     def add_tabs(self):
-        # Weather Dashboard tab
-        self.dashboard_tab = WeatherDashboardTab(self.notebook, controller=self.controller)
-        self.controller.dashboard_tab = self.dashboard_tab 
-        self.notebook.add(self.dashboard_tab, text="Weather Dashboard")
+        # Create tab frames using CTkTabview
+        dashboard_tab_frame = self.tabview.add("Weather Dashboard")
+        alerts_tab_frame = self.tabview.add("Weather Alerts")
 
-        #Weather Alerts tab
-        alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)
-        self.notebook.add(alerts_tab, text="Weather Alerts")
+        # Create your custom tab widgets inside the tab frames
+        self.dashboard_tab = WeatherDashboardTab(dashboard_tab_frame, controller=self.controller)
+        self.dashboard_tab.pack(fill="both", expand=True)
+        
+        self.alerts_tab = WeatherAlertsTab(alerts_tab_frame, controller=self.controller)
+        self.alerts_tab.pack(fill="both", expand=True)
 
-        # # Group Project tab
-        # group_tab = GroupProjectTab(self.notebook, controller=self.controller)
-        # self.notebook.add(group_tab, text="Group Project")
-
+        # Set controller references
+        self.controller.dashboard_tab = self.dashboard_tab
+        self.controller.alerts_tab = self.alerts_tab
 
 if __name__ == "__main__":
     app = RootWindow()

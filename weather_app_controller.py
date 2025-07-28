@@ -89,8 +89,10 @@ class WeatherAppController:
         self.db = WeatherDB()
         self.api = WeatherAPI()
         self.gui = RootWindow(controller=self)
-
+        self.alerts_tab = None  # set by RootWindow after initialization
         print("Controller initialized successfully.")
+
+    
 
     def fetch_and_store_weather(self, city):
         """
@@ -109,7 +111,12 @@ class WeatherAppController:
         if data and "main" in data and "weather" in data:
             self.db.save(data)
             print(f"Weather for {norm_city} saved to database.")
+            
+            # Updates alerts tab after fetching new data from the API call
+            if self.alerts_tab:
+                self.alerts_tab.display_alerts()
             return data
+        
         else:
             print(f"Failed to fetch weather data for {norm_city}.")
             return None
@@ -122,7 +129,7 @@ class WeatherAppController:
         if hasattr(self, "dashboard_tab") and hasattr(self.dashboard_tab, "city_entry"):
             city = self.dashboard_tab.city_entry.get().strip()
         if not city:
-            city = "Boston"  # fallback default if empty
+            city = "Charleston"  # fallback default if empty
         return fetch_last_data_entry(city)
 
     def run(self):

@@ -23,7 +23,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
 
         self.alert_labels = []
 
-        self.display_alerts()
+        #self.display_alerts()
 
     def display_alerts(self):
         # Clear old alerts

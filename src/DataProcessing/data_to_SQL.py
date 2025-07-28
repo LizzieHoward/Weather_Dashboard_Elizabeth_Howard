@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 class WeatherDB:
-    def __init__(self, db_path="Capstone/Weather_Dashboard_Elizabeth_Howard/weather_data.db"):
+    def __init__(self, db_path="Capstone/Weather_Dashboard_Elizabeth_Howard/Data/weather_data.db"):
         self.db_path = db_path
 
     # --- Save to SQLite using OWM field names ---
@@ -56,9 +56,3 @@ class WeatherDB:
         conn.commit()
         conn.close()
         print(f"Weather for {record['name']} saved to SQLite.")
-
-# # --- Example usage ---
-# if __name__ == "__main__":
-#     city = "Boston"
-#     data = get_weather_data(city, api_key)
-#     save_weather_to_sqlite(data)

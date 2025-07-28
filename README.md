@@ -2,20 +2,18 @@
 
 # To Start the Weather Dashboard app, open main.py and run in python. Pip install requirements.txt if needed. 
 
-
-
-
 File/Folder Name                    Description
-
 
 ```
 WEATHER_DASHBOARD_ELIZABETH_HOWARD/
 ├── Data/                           # For saved CSV or text files
 │   └── Screenshots/                # images for README
+│   └── weather_data.db             # SQLite database
 │
 ├── Docs/                           # Documentation and homework
 │   ├── Homework/
 │   │   └── week_11_reflections.md  # Week 11 Homework
+│   │   └── week_13.md              # Week 13 Homework
 │   ├── README.md                   # Project README
 │   └── user_guide.md               # User guide
 │
@@ -35,9 +33,13 @@ WEATHER_DASHBOARD_ELIZABETH_HOWARD/
 │   │   └── __init__.py
 │   ├── DataProcessing/
 │   │   ├── data_to_SQL.py          # Database logic
+│   │   ├── data_query.py           # Query logic
 │   │   └── __init__.py
 │   ├── GUI/
-│   │   └── weather_dashboard.py    # Main GUI window
+│   │   ├── weather_dashboard_tab.py # Dashboard tab GUI
+│   │   ├── weather_alerts_tab.py    # Alerts tab GUI
+│   │   ├── root_window.py           # Main window and tab management
+│   │   └── weather_dashboard.py     # Main GUI window
 │   └── ErrorHandling/
 │       └── error_handling_entry.py # Input normalization and error handling
 │
@@ -52,13 +54,11 @@ WEATHER_DASHBOARD_ELIZABETH_HOWARD/
 ├── requirements.txt                # requirements to run Weather Dashboard
 ├── sandbox.py                      # Experimental code
 ├── debugger.py                     # Project cleanup script
-└── weather_app_controller.py       # (If present) app controller
+└── weather_app_controller.py       # App controller
 ```
 
-
 # copy and paste bank for file structure above
-└── 
-
+└──  
 
 ## Required Imports
 
@@ -74,10 +74,12 @@ The following Python imports are used throughout the Weather Dashboard app:
 - requests
 - python-dotenv (`from dotenv import load_dotenv`)
 - customtkinter as ctk
+- pandas
 
 **Project Modules:**
 - from API.API_call import get_weather_data, api_key
-- from DataProcessing.data_to_SQL import save_weather_to_sqlite
+- from DataProcessing.data_to_SQL import WeatherDB
+- from DataProcessing.data_query import fetch_last_data_entry
 - import main
 
 Make sure all third-party packages are installed (see `requirements.txt`).
