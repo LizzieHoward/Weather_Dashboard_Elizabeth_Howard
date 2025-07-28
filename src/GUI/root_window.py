@@ -32,8 +32,9 @@ class RootWindow(ctk.CTk):
 
     def add_tabs(self):
         # Weather Dashboard tab
-        dashboard_tab = WeatherDashboardTab(self.notebook, controller=self.controller)
-        self.notebook.add(dashboard_tab, text="Weather Dashboard")
+        self.dashboard_tab = WeatherDashboardTab(self.notebook, controller=self.controller)
+        self.controller.dashboard_tab = self.dashboard_tab 
+        self.notebook.add(self.dashboard_tab, text="Weather Dashboard")
 
         #Weather Alerts tab
         alerts_tab = WeatherAlertsTab(self.notebook, controller=self.controller)

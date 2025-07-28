@@ -1,4 +1,3 @@
-
 import customtkinter as ctk
 from src.DataProcessing.data_query import fetch_last_data_entry
 import os
@@ -35,6 +34,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
         if not self.controller:
             return
 
+        # Now controller.get_last_weather_data() uses the dashboard tab's city_entry
         data = self.controller.get_last_weather_data()
         if not data:
             no_data = ctk.CTkLabel(

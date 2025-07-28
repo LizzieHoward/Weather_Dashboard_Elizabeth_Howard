@@ -24,8 +24,8 @@
 import customtkinter as ctk  # CustomTkinter for modern UI
 #import tabs  # assuming you have a tabs package to keep it consistent
 
-
-class WeatherDashboardTab(ctk.CTkFrame):
+i
+class WeatherDashboardTab(ctk.CTkFrame): 
     def __init__(self, parent, controller=None):
         super().__init__(parent)
         self.controller = controller
