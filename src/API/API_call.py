@@ -27,6 +27,10 @@ class WeatherAPI:
         if not self.api_key:
             raise ValueError("No API key provided. Set OPENWEATHER_API_KEY in .env file or pass to constructor.")
         
+        temp_unit = os.getenv("TEMPERATURE_UNIT", "fahrenheit").lower()
+        self.units = "imperial" if temp_unit == "fahrenheit" else "metric"
+        self.unit_symbol = "°F" if temp_unit == "fahrenheit" else "°C"
+        
         self.base_url = "http://api.openweathermap.org/data/2.5/weather"
         print(f"[INFO] WeatherAPI initialized. Using API key: {self.api_key[:5]}...")
 
@@ -59,7 +63,13 @@ class WeatherAPI:
             response.raise_for_status()
             
             data = response.json()
+            # Add unit info to response for display purposes
+            data['_unit_info'] = {
+                'symbol': self.unit_symbol,
+                'system': self.units
+            }
             print(f"[SUCCESS] Retrieved weather data for {city}")
+            print(f"[DEBUG] OpenWeatherMap field order - name: {data.get('name')}, temp: {data['main']['temp']}, feels_like: {data['main'].get('feels_like')}, humidity: {data['main']['humidity']}")
             return data
             
         except requests.exceptions.HTTPError as http_err:
@@ -96,10 +106,16 @@ def main():
         for city in cities:
             try:
                 data = weather_api.get_weather_data(city)
-                print(f"\nWeather in {city}:")
-                print(f"Temperature: {data['main']['temp']}°C")
+                unit_symbol = data.get('_unit_info', {}).get('symbol', '°F')
+                
+                print(f"\nWeather in {city} (OpenWeatherMap field order):")
+                print(f"City: {data.get('name')}")
+                print(f"Temperature: {data['main']['temp']}{unit_symbol}")
+                print(f"Feels Like: {data['main']['feels_like']}{unit_symbol}")
                 print(f"Humidity: {data['main']['humidity']}%")
                 print(f"Conditions: {data['weather'][0]['description']}")
+                wind_unit = "mph" if unit_symbol == "°F" else "m/s"
+                print(f"Wind Speed: {data['wind']['speed']} {wind_unit}")
                 
                 # Save to file
                 weather_api.save_to_file(data, f"{city.lower()}_weather.json")

@@ -4,3 +4,5 @@ python-dotenv
 customtkinter
 matplotlib
 pandas
+dotenv
+sqlite3

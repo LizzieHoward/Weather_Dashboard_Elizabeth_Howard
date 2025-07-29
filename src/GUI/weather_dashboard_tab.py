@@ -1,34 +1,16 @@
-# imports
-
-
-# import tabs
-
-# create root frame
-
-# create notebook
-
-# Display "welcome to Weather Dashboard" message
-
-# create widgets
-# -text input box for city name
-# -button to fetch weather data
-# -search box pulling in API call data
-# which goes to the stats display 
-# simple stats display
-# - temp, humidity, description, wind speed
-
-# -along the right hand side will be the icons for each tab 
-
-# weather_dashboard_tab.py
-
-import customtkinter as ctk  # CustomTkinter for modern UI
-#import tabs  # assuming you have a tabs package to keep it consistent
-
+import customtkinter as ctk
+import os
+from dotenv import load_dotenv
 
 class WeatherDashboardTab(ctk.CTkFrame): 
     def __init__(self, parent, controller=None):
         super().__init__(parent)
         self.controller = controller
+        
+        # Load temperature unit preference
+        load_dotenv()
+        temp_unit = os.getenv("TEMPERATURE_UNIT", "fahrenheit").lower()
+        self.unit_symbol = "°F" if temp_unit == "fahrenheit" else "°C"
 
         # Welcome message
         welcome_label = ctk.CTkLabel(
@@ -97,10 +79,14 @@ class WeatherDashboardTab(ctk.CTkFrame):
                 else:
                     self.show_error(f"Could not fetch weather for {city}.")
             else:
-                # Fallback dummy data
+                # Fallback dummy data in OpenWeatherMap field order
                 dummy_data = {
                     "name": city,
-                    "main": {"temp": 30, "humidity": 50},
+                    "main": {
+                        "temp": 30, 
+                        "feels_like": 32,
+                        "humidity": 50
+                    },
                     "weather": [{"description": "clear sky"}],
                     "wind": {"speed": 3.2}
                 }
@@ -113,12 +99,16 @@ class WeatherDashboardTab(ctk.CTkFrame):
         for widget in self.result_frame.winfo_children():
             widget.destroy()
 
+        # Extract fields in OpenWeatherMap order
         city_name = data.get("name", "N/A")
-        temp_k = data.get("main", {}).get("temp", "N/A")
         temperature = data.get("main", {}).get("temp", "N/A")
+        feels_like = data.get("main", {}).get("feels_like", "N/A")
         humidity = data.get("main", {}).get("humidity", "N/A")
         description = data.get("weather", [{}])[0].get("description", "N/A").capitalize()
         wind_speed = data.get("wind", {}).get("speed", "N/A")
+        
+        # Get unit symbol from API response or use default
+        unit_symbol = data.get('_unit_info', {}).get('symbol', self.unit_symbol)
 
         title = ctk.CTkLabel(
             self.result_frame,
@@ -130,10 +120,14 @@ class WeatherDashboardTab(ctk.CTkFrame):
         details_frame = ctk.CTkFrame(self.result_frame)
         details_frame.grid(padx=30, pady=10)
 
-        self.make_row(details_frame, "Temperature", f"{temperature}°C")
+        # Display fields in OpenWeatherMap order
+        self.make_row(details_frame, "Temperature", f"{temperature}{unit_symbol}")
+        if feels_like != "N/A" and feels_like is not None:
+            self.make_row(details_frame, "Feels Like", f"{feels_like}{unit_symbol}")
         self.make_row(details_frame, "Humidity", f"{humidity}%")
         self.make_row(details_frame, "Description", description)
-        self.make_row(details_frame, "Wind Speed", f"{wind_speed} m/s")
+        wind_unit = "mph" if unit_symbol == "°F" else "m/s"
+        self.make_row(details_frame, "Wind Speed", f"{wind_speed} {wind_unit}")
 
     def make_row(self, parent, label_text, value_text):
         frame = ctk.CTkFrame(parent)
@@ -145,7 +139,6 @@ class WeatherDashboardTab(ctk.CTkFrame):
         value = ctk.CTkLabel(frame, text=value_text, font=("Segoe UI", 14), anchor="e")
         value.pack(side="right", padx=10)
 
- 
     def show_error(self, message):
         error_window = ctk.CTkToplevel(self)
         error_window.title("Error")
@@ -171,5 +164,3 @@ class WeatherDashboardTab(ctk.CTkFrame):
 
         error_window.grab_set()
         error_window.focus_force()
-
-
