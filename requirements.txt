@@ -6,3 +6,5 @@ matplotlib
 pandas
 dotenv
 sqlite3
+pylance 
+dotenv
