@@ -5,6 +5,7 @@ import customtkinter as ctk
 # Import your tabs
 from src.GUI.weather_dashboard_tab import WeatherDashboardTab
 from src.GUI.weather_alerts_tab import WeatherAlertsTab
+from src.GUI.group_cities_comparison_tab import GroupCitiesComparisonTab
 
 class RootWindow(ctk.CTk):
     def __init__(self, controller=None):
@@ -32,13 +33,16 @@ class RootWindow(ctk.CTk):
         # Create tab frames using CTkTabview
         dashboard_tab_frame = self.tabview.add("Weather Dashboard")
         alerts_tab_frame = self.tabview.add("Weather Alerts")
-
+        group_cities_tab_frame = self.tabview.add("Group Cities Comparison")
         # Create your custom tab widgets inside the tab frames
         self.dashboard_tab = WeatherDashboardTab(dashboard_tab_frame, controller=self.controller)
         self.dashboard_tab.pack(fill="both", expand=True)
         
         self.alerts_tab = WeatherAlertsTab(alerts_tab_frame, controller=self.controller)
         self.alerts_tab.pack(fill="both", expand=True)
+
+        self.group_cities_comparison_tab = GroupCitiesComparisonTab(group_cities_tab_frame, controller=self.controller)
+        self.group_cities_comparison_tab.pack(fill="both", expand=True)
 
         # Set controller references
         if self.controller:

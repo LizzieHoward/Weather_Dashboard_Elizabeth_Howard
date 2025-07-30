@@ -8,3 +8,4 @@ dotenv
 sqlite3
 pylance 
 dotenv
+typing
