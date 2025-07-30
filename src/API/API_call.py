@@ -32,7 +32,7 @@ class WeatherAPI:
         self.unit_symbol = "°F" if temp_unit == "fahrenheit" else "°C"
         
         self.base_url = "http://api.openweathermap.org/data/2.5/weather"
-        print(f"[INFO] WeatherAPI initialized. Using API key: {self.api_key[:5]}...")
+        print(f"[INFO] WeatherAPI initialized. Using API key: {self.api_key[:5]}... | Units: {self.units}")
 
     def get_weather_data(self, city: str) -> Dict[str, Any]:
         """
@@ -54,11 +54,11 @@ class WeatherAPI:
         params = {
             'q': city,
             'appid': self.api_key,
-            'units': 'imperial'  # Use 'metric' for Celsius
+            'units': self.units  # ← FIXED: Use self.units instead of hardcoded 'imperial'
         }
         
         try:
-            print(f"[INFO] Requesting weather data for {city}...")
+            print(f"[INFO] Requesting weather data for {city} using {self.units} units...")
             response = requests.get(self.base_url, params=params)
             response.raise_for_status()
             
@@ -69,7 +69,7 @@ class WeatherAPI:
                 'system': self.units
             }
             print(f"[SUCCESS] Retrieved weather data for {city}")
-            print(f"[DEBUG] OpenWeatherMap field order - name: {data.get('name')}, temp: {data['main']['temp']}, feels_like: {data['main'].get('feels_like')}, humidity: {data['main']['humidity']}")
+            print(f"[DEBUG] OpenWeatherMap field order - name: {data.get('name')}, temp: {data['main']['temp']}{self.unit_symbol}, feels_like: {data['main'].get('feels_like')}{self.unit_symbol}, humidity: {data['main']['humidity']}")
             return data
             
         except requests.exceptions.HTTPError as http_err:
