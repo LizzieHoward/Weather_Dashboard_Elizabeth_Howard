@@ -24,6 +24,9 @@ class RootWindow(ctk.CTk):
 
         # Add tabs
         self.add_tabs()
+        
+        # Set up tab change callback
+        self.tabview.configure(command=self.on_tab_changed)
 
     def add_tabs(self):
         # Create tab frames using CTkTabview
@@ -38,8 +41,18 @@ class RootWindow(ctk.CTk):
         self.alerts_tab.pack(fill="both", expand=True)
 
         # Set controller references
-        self.controller.dashboard_tab = self.dashboard_tab
-        self.controller.alerts_tab = self.alerts_tab
+        if self.controller:
+            self.controller.dashboard_tab = self.dashboard_tab
+            self.controller.alerts_tab = self.alerts_tab
+
+    def on_tab_changed(self):
+        """Called when tab selection changes"""
+        current_tab = self.tabview.get()
+        print(f"[DEBUG] Tab changed to: {current_tab}")
+        
+        if current_tab == "Weather Alerts":
+            # Trigger alerts refresh when alerts tab is selected
+            self.alerts_tab.on_tab_selected()
 
 if __name__ == "__main__":
     app = RootWindow()
