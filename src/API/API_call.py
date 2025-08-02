@@ -5,7 +5,7 @@ with environment variable management and error handling.
 """
 
 import os
-import requests
+import requests 
 from typing import Dict, Optional, Any
 from dotenv import load_dotenv
 import json

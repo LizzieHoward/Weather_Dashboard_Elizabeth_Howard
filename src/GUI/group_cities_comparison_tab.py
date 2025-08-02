@@ -13,6 +13,7 @@ import os
 from dotenv import load_dotenv
 from typing import Optional
 
+
 class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
     def __init__(self, parent, controller=None):
         super().__init__(parent)
