@@ -61,7 +61,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city1_dropdown = ctk.CTkComboBox(
             self.selection_frame,
             values=["Loading cities..."],
-            state="normal",
+            state="disabled",
             width=200
         )
         self.city1_dropdown.grid(row=0, column=1, padx=10, pady=10)
@@ -77,7 +77,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city2_dropdown = ctk.CTkComboBox(
             self.selection_frame,
             values=["Loading cities..."],
-            state="normal",
+            state="disabled",
             width=200
         )
         self.city2_dropdown.grid(row=1, column=1, padx=10, pady=10)
@@ -87,7 +87,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
             self.selection_frame,
             text="Compare Cities",
             command=self.compare_cities,
-            state="normal"
+            state="disabled"
         )
         self.compare_button.grid(row=2, column=0, columnspan=2, pady=20)
 
@@ -118,8 +118,16 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.status_label.configure(text="Loading cities from database...")
         self.update()
 
+        # Test database connection and table existence
+        if not self.static_data_query.test_connection():
+            self.status_label.configure(
+                text="❌ Could not connect to database or 'static_data' table missing!",
+                text_color="red"
+            )
+            print("[DEBUG] Database connection or table missing")
+            return
+
         try:
-            # Use the StaticDataQuery instance
             self.available_cities = self.static_data_query.get_all_cities()
 
             if self.available_cities:
@@ -175,7 +183,6 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.update()
 
         try:
-            # Use the StaticDataQuery instance for comparison data
             data1, data2 = self.static_data_query.get_comparison_data(city1, city2)
             loading_label.destroy()
             if data1 is None or data2 is None:
@@ -243,35 +250,27 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
 
         row = 1
         for field, display_name in field_mappings.items():
-            # Field name
             ctk.CTkLabel(comparison_frame, text=display_name, font=("Arial", 12)).grid(
                 row=row, column=0, padx=10, pady=2, sticky="w"
             )
-
-            # City 1 value
             value1 = self.format_field_value(field, data1.get(field))
             color1 = self.get_field_color(field, data1.get(field), data2.get(field), is_first=True)
             ctk.CTkLabel(comparison_frame, text=value1, font=("Arial", 12), text_color=color1).grid(
                 row=row, column=1, padx=10, pady=2
             )
-
-            # City 2 value
             value2 = self.format_field_value(field, data2.get(field))
             color2 = self.get_field_color(field, data2.get(field), data1.get(field), is_first=False)
             ctk.CTkLabel(comparison_frame, text=value2, font=("Arial", 12), text_color=color2).grid(
                 row=row, column=2, padx=10, pady=2
             )
-
             row += 1
 
-        # Add summary
         self.add_comparison_summary(data1, data2)
 
     def format_field_value(self, field: str, value) -> str:
         """Format field values for display"""
         if pd.isna(value) or value is None:
             return "N/A"
-
         if field in ['temp', 'feels_like']:
             try:
                 return f"{float(value):.1f}{self.unit_symbol}"
@@ -294,45 +293,35 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         """Get color coding for comparison values"""
         if pd.isna(value1) or pd.isna(value2) or value1 is None or value2 is None:
             return "gray"
-
         try:
             if field in ['temp', 'feels_like', 'speed']:
                 val1 = float(value1)
                 val2 = float(value2)
-
                 if field in ['temp', 'feels_like']:
-                    # Higher temperature = red, lower = blue
                     if val1 > val2:
                         return "red" if is_first else "blue"
                     elif val1 < val2:
                         return "blue" if is_first else "red"
                 elif field == 'speed':
-                    # Higher wind speed = orange, lower = green
                     if val1 > val2:
                         return "orange" if is_first else "green"
                     elif val1 < val2:
                         return "green" if is_first else "orange"
-
         except (ValueError, TypeError):
             pass
-
-        return "white"  # Default color
+        return "white"
 
     def add_comparison_summary(self, data1: pd.Series, data2: pd.Series):
         """Add a summary of the comparison"""
         summary_frame = ctk.CTkFrame(self.results_frame)
         summary_frame.pack(fill="x", padx=10, pady=20)
-
         summary_label = ctk.CTkLabel(
             summary_frame,
             text="Comparison Summary",
             font=("Arial", 14, "bold")
         )
         summary_label.pack(pady=(10, 5))
-
-        # Generate summary text
         summary_text = self.generate_summary_text(data1, data2)
-
         summary_content = ctk.CTkLabel(
             summary_frame,
             text=summary_text,
@@ -344,31 +333,23 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
     def generate_summary_text(self, data1: pd.Series, data2: pd.Series) -> str:
         """Generate summary text comparing the two cities"""
         summary_parts = []
-
         try:
-            # Temperature comparison
             if pd.notna(data1.get('temp')) and pd.notna(data2.get('temp')):
                 temp1, temp2 = float(data1['temp']), float(data2['temp'])
                 temp_diff = abs(temp1 - temp2)
                 warmer_city = data1['name'] if temp1 > temp2 else data2['name']
                 summary_parts.append(f"🌡️ {warmer_city} is warmer by {temp_diff:.1f}{self.unit_symbol}")
-
-            # Wind comparison
             if pd.notna(data1.get('speed')) and pd.notna(data2.get('speed')):
                 wind1, wind2 = float(data1['speed']), float(data2['speed'])
                 wind_diff = abs(wind1 - wind2)
                 windier_city = data1['name'] if wind1 > wind2 else data2['name']
                 summary_parts.append(f"💨 {windier_city} has stronger winds by {wind_diff:.1f} mph")
-
-            # Humidity comparison
             if pd.notna(data1.get('humidity')) and pd.notna(data2.get('humidity')):
                 humid1, humid2 = int(data1['humidity']), int(data2['humidity'])
                 humid_diff = abs(humid1 - humid2)
-                if humid_diff > 5:  # Only mention if significant difference
+                if humid_diff > 5:
                     more_humid_city = data1['name'] if humid1 > humid2 else data2['name']
                     summary_parts.append(f"💧 {more_humid_city} is more humid by {humid_diff}%")
-
         except (ValueError, TypeError) as e:
             print(f"[DEBUG] Error generating summary: {e}")
-
         return "\n".join(summary_parts) if summary_parts else "Both cities have similar weather conditions."
