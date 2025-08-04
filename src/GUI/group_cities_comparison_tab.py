@@ -61,7 +61,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city1_dropdown = ctk.CTkComboBox(
             self.selection_frame,
             values=["Loading cities..."],
-            state="disabled",
+            state="normal",
             width=200
         )
         self.city1_dropdown.grid(row=0, column=1, padx=10, pady=10)
@@ -77,7 +77,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city2_dropdown = ctk.CTkComboBox(
             self.selection_frame,
             values=["Loading cities..."],
-            state="disabled",
+            state="normal",
             width=200
         )
         self.city2_dropdown.grid(row=1, column=1, padx=10, pady=10)
@@ -87,7 +87,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
             self.selection_frame,
             text="Compare Cities",
             command=self.compare_cities,
-            state="disabled"
+            state="normal"
         )
         self.compare_button.grid(row=2, column=0, columnspan=2, pady=20)
         
