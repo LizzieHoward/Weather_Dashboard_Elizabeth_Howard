@@ -1,13 +1,3 @@
-# src/GUI/group_cities_comparison.py
-
-"""
-This tab allows users to compare weather data between two cities using a static database.
-Users select two cities from dropdowns and view a side-by-side comparison of all available weather fields.
-The system automatically selects the record with the most complete data for each city.
-"""
-
-# src/GUI/group_cities_comparison_tab.py
-
 """
 This tab allows users to compare weather data between two cities using a static database.
 Users select two cities from dropdowns and view a side-by-side comparison of all available weather fields.

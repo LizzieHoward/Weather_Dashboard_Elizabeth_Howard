@@ -30,7 +30,7 @@ class StaticDataQuery:
         try:
             conn = sqlite3.connect(self.db_path)
             query = """
-                SELECT DISTINCT name FROM static_data
+                SELECT DISTINCT name FROM weather_data
                 WHERE name IS NOT NULL
                 ORDER BY name ASC
             """

@@ -5,13 +5,16 @@ from datetime import datetime
 import csv
 
 def create_database():
-    """Create SQLite database with standardized weather table"""
-    conn = sqlite3.connect('weather_data.db')
+    """Create SQLite database with standardized static_data table"""
+    conn = sqlite3.connect('Data/weather_data.db')
     cursor = conn.cursor()
     
-    # Create the weather table matching Elizabeth's format
+    # Drop existing static_data table if it exists
+    cursor.execute('DROP TABLE IF EXISTS static_data')
+    
+    # Create the static_data table
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS weather_data (
+        CREATE TABLE static_data (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             temp REAL,
@@ -29,7 +32,6 @@ def create_database():
 def standardize_tobi_data():
     """Process weather_data_Capstone_Tobi.csv"""
     df = pd.read_csv('weather_data_Capstone_Tobi.csv')
-    
     standardized = pd.DataFrame({
         'name': df['city'],
         'temp': df['temp_f'],
@@ -39,13 +41,11 @@ def standardize_tobi_data():
         'speed': df['wind_speed_mph'],
         'dt': df['datetime']
     })
-    
     return standardized
 
 def standardize_eric_data():
     """Process weather_data_Eric.csv"""
     df = pd.read_csv('weather_data_Eric.csv')
-    
     standardized = pd.DataFrame({
         'name': df['city'],
         'temp': df['temperature'],
@@ -55,47 +55,39 @@ def standardize_eric_data():
         'speed': df['wind_speed'],
         'dt': df['timestamp']
     })
-    
     return standardized
 
 def standardize_shomari_data():
     """Process weather_data_Shomari.csv"""
     df = pd.read_csv('weather_data_Shomari.csv')
-    
     standardized = pd.DataFrame({
         'name': df['City'],
         'temp': df['Temperature (F)'],
-        'feels_like': np.nan,  # Not provided in original
-        'humidity': np.nan,  # Not provided in original
+        'feels_like': np.nan,
+        'humidity': np.nan,
         'description': df['Description'].str.lower(),
-        'speed': np.nan,  # Not provided in original
+        'speed': np.nan,
         'dt': df['Timestamp']
     })
-    
     return standardized
 
 def standardize_dunasha_data():
     """Process weather_history_Dunasha.csv"""
-    df = pd.read_csv('weather_history_Dunasha.csv', header=None, 
-                     names=['dt', 'name', 'temp', 'description'])
-    
+    df = pd.read_csv('weather_history_Dunasha.csv', header=None, names=['dt', 'name', 'temp', 'description'])
     standardized = pd.DataFrame({
         'name': df['name'],
         'temp': df['temp'],
-        'feels_like': np.nan,  # Not provided in original
-        'humidity': np.nan,  # Not provided in original
+        'feels_like': np.nan,
+        'humidity': np.nan,
         'description': df['description'].str.lower(),
-        'speed': np.nan,  # Not provided in original
+        'speed': np.nan,
         'dt': df['dt']
     })
-    
     return standardized
 
 def standardize_elizabeth_data():
     """Process weather_data_Elizabeth.csv (reference format)"""
     df = pd.read_csv('weather_data_Elizabeth (1).csv')
-    
-    # Already in the correct format, just ensure consistency
     standardized = pd.DataFrame({
         'name': df['name'],
         'temp': df['temp'],
@@ -105,7 +97,6 @@ def standardize_elizabeth_data():
         'speed': df['speed'],
         'dt': df['dt']
     })
-    
     return standardized
 
 def main():
@@ -113,7 +104,6 @@ def main():
     print("Creating SQLite database...")
     conn = create_database()
     
-    # Process each file
     datasets = []
     
     print("Processing Tobi's data...")
@@ -136,31 +126,25 @@ def main():
     elizabeth_data = standardize_elizabeth_data()
     datasets.append(elizabeth_data)
     
-    # Combine all datasets
     print("Combining all datasets...")
     combined_data = pd.concat(datasets, ignore_index=True)
     
-    # Clean and standardize datetime format
     print("Standardizing datetime formats...")
     combined_data['dt'] = pd.to_datetime(combined_data['dt'], errors='coerce')
     combined_data['dt'] = combined_data['dt'].dt.strftime('%Y-%m-%d %H:%M:%S')
-    
-    # Remove rows with invalid dates
     combined_data = combined_data.dropna(subset=['dt'])
     
-    # Insert data into database
-    print("Inserting data into database...")
-    combined_data.to_sql('weather_data', conn, if_exists='append', index=False)
+    print("Inserting data into static_data table...")
+    combined_data.to_sql('static_data', conn, if_exists='append', index=False)
     
-    # Get statistics
     cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM weather_data")
+    cursor.execute("SELECT COUNT(*) FROM static_data")
     total_records = cursor.fetchone()[0]
     
-    cursor.execute("SELECT COUNT(DISTINCT name) FROM weather_data")
+    cursor.execute("SELECT COUNT(DISTINCT name) FROM static_data")
     unique_cities = cursor.fetchone()[0]
     
-    cursor.execute("SELECT name, COUNT(*) as count FROM weather_data GROUP BY name ORDER BY count DESC LIMIT 10")
+    cursor.execute("SELECT name, COUNT(*) as count FROM static_data GROUP BY name ORDER BY count DESC LIMIT 10")
     top_cities = cursor.fetchall()
     
     print(f"\nDatabase created successfully!")
@@ -170,17 +154,16 @@ def main():
     for city, count in top_cities:
         print(f"  {city}: {count} records")
     
-    # Sample query to verify data
     print(f"\nSample data (first 5 records):")
-    cursor.execute("SELECT * FROM weather_data LIMIT 5")
+    cursor.execute("SELECT * FROM static_data LIMIT 5")
     columns = [description[0] for description in cursor.description]
     print(f"Columns: {', '.join(columns)}")
-    
     for row in cursor.fetchall():
         print(f"  {row}")
     
     conn.close()
-    print(f"\nDatabase saved as 'weather_data.db'")
+    print(f"\nDatabase saved as 'Data/weather_data.db'")
 
 if __name__ == "__main__":
+
     main()
