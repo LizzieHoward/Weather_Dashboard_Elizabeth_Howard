@@ -30,7 +30,7 @@ class StaticDataQuery:
         try:
             conn = sqlite3.connect(self.db_path)
             query = """
-                SELECT DISTINCT name FROM weather_data
+                SELECT DISTINCT name FROM static_data
                 WHERE name IS NOT NULL
                 ORDER BY name ASC
             """
@@ -80,7 +80,7 @@ class StaticDataQuery:
         try:
             conn = sqlite3.connect(self.db_path)
             query = """
-                SELECT * FROM weather_data
+                SELECT * FROM static_data
                 WHERE name = ?
             """
             df = pd.read_sql_query(query, conn, params=(city,))
@@ -154,7 +154,7 @@ class StaticDataQuery:
         try:
             conn = sqlite3.connect(self.db_path)
             query = """
-                SELECT COUNT(DISTINCT name) as city_count FROM weather_data
+                SELECT COUNT(DISTINCT name) as city_count FROM static_data
                 WHERE name IS NOT NULL
             """
             df = pd.read_sql_query(query, conn)
@@ -177,17 +177,17 @@ class StaticDataQuery:
             conn = sqlite3.connect(self.db_path)
             
             # Total records
-            total_query = "SELECT COUNT(*) as total_records FROM weather_data"
+            total_query = "SELECT COUNT(*) as total_records FROM static_data"
             total_df = pd.read_sql_query(total_query, conn)
             total_records = total_df.iloc[0]['total_records'] if not total_df.empty else 0
             
             # Unique cities
-            cities_query = "SELECT COUNT(DISTINCT name) as unique_cities FROM weather_data WHERE name IS NOT NULL"
+            cities_query = "SELECT COUNT(DISTINCT name) as unique_cities FROM static_data WHERE name IS NOT NULL"
             cities_df = pd.read_sql_query(cities_query, conn)
             unique_cities = cities_df.iloc[0]['unique_cities'] if not cities_df.empty else 0
             
             # Records with feels_like data
-            feels_like_query = "SELECT COUNT(*) as feels_like_records FROM weather_data WHERE feels_like IS NOT NULL"
+            feels_like_query = "SELECT COUNT(*) as feels_like_records FROM static_data WHERE feels_like IS NOT NULL"
             feels_like_df = pd.read_sql_query(feels_like_query, conn)
             feels_like_records = feels_like_df.iloc[0]['feels_like_records'] if not feels_like_df.empty else 0
             
@@ -222,7 +222,7 @@ class StaticDataQuery:
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='weather_data';")
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='static_data';")
             table_exists = cursor.fetchone() is not None
             conn.close()
             
@@ -230,7 +230,7 @@ class StaticDataQuery:
                 print(f"[DEBUG] Successfully connected to database at {self.db_path}")
                 return True
             else:
-                print(f"[DEBUG] Database connected but 'weather_data' table not found at {self.db_path}")
+                print(f"[DEBUG] Database connected but 'static_data' table not found at {self.db_path}")
                 return False
                 
         except Exception as e:
