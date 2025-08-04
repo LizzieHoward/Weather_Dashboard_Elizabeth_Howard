@@ -6,7 +6,7 @@ import csv
 
 def create_database():
     """Create SQLite database with standardized static_data table"""
-    conn = sqlite3.connect('Data/weather_data.db')
+    conn = sqlite3.connect('weather_data.db')
     cursor = conn.cursor()
     
     # Drop existing static_data table if it exists
@@ -162,7 +162,7 @@ def main():
         print(f"  {row}")
     
     conn.close()
-    print(f"\nDatabase saved as 'Data/weather_data.db'")
+    print(f"\nDatabase saved as 'weather_data.db'")
 
 if __name__ == "__main__":
 
