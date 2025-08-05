@@ -40,7 +40,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
         self.header = ctk.CTkLabel(
             self.alerts_frame,
             text="Weather Alerts",
-            font=("Arial", 20, "bold")
+            font=("Segoe UI", 20, "bold")
         )
         self.header.pack(pady=(0, 10))
 
@@ -50,7 +50,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
         self.status_label = ctk.CTkLabel(
             self.alerts_frame,
             text="Select this tab to check for weather alerts",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="gray"
         )
         self.status_label.pack(pady=5)
@@ -115,7 +115,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
         self.status_label = ctk.CTkLabel(
             self.alerts_frame,
             text="Loading weather data...",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="blue"
         )
         self.status_label.pack(pady=5)
@@ -136,7 +136,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
             no_data = ctk.CTkLabel(
                 self.alerts_frame,
                 text="No weather data available in database. Search for a city first.",
-                font=("Arial", 14),
+                font=("Segoe UI", 14),
                 text_color="orange"
             )
             no_data.pack(pady=10)
@@ -155,7 +155,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
         info_label = ctk.CTkLabel(
             self.alerts_frame,
             text=f"Analyzing alerts for: {city_name} (Last updated: {timestamp})",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="gray"
         )
         info_label.pack(pady=(0, 10))
@@ -167,7 +167,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
             limited_data_msg = ctk.CTkLabel(
                 self.alerts_frame,
                 text="⚠️ Limited alert data: This weather record doesn't include 'feels like' temperature.\nOnly wind alerts will be shown.",
-                font=("Arial", 12),
+                font=("Segoe UI", 12),
                 text_color="orange"
             )
             limited_data_msg.pack(pady=10)
@@ -185,7 +185,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
             msg = ctk.CTkLabel(
                 self.alerts_frame,
                 text="✅ No active weather alerts for current conditions.",
-                font=("Arial", 14),
+                font=("Segoe UI", 14),
                 text_color="green"
             )
             msg.pack(pady=10)
@@ -200,7 +200,7 @@ class WeatherAlertsTab(ctk.CTkScrollableFrame):
                     alert_frame,
                     text=alert,
                     text_color="white",
-                    font=("Arial", 14, "bold"),
+                    font=("Segoe UI", 14, "bold"),
                     fg_color="red",
                     corner_radius=10
                 )

@@ -42,7 +42,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.header = ctk.CTkLabel(
             self.main_frame,
             text="Group Cities Comparison",
-            font=("Arial", 20, "bold")
+            font=("Segoe UI", 20, "bold")
         )
         self.header.pack(pady=(0, 20))
 
@@ -54,7 +54,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city1_label = ctk.CTkLabel(
             self.selection_frame,
             text="Select First City:",
-            font=("Arial", 14, "bold")
+            font=("Segoe UI", 14, "bold")
         )
         self.city1_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
@@ -70,7 +70,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.city2_label = ctk.CTkLabel(
             self.selection_frame,
             text="Select Second City:",
-            font=("Arial", 14, "bold")
+            font=("Segoe UI", 14, "bold")
         )
         self.city2_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
@@ -99,7 +99,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         self.status_label = ctk.CTkLabel(
             self.results_frame,
             text="Select this tab to load available cities",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="gray"
         )
         self.status_label.pack(pady=20)
@@ -168,7 +168,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         loading_label = ctk.CTkLabel(
             self.results_frame,
             text=f"Loading comparison data for {city1} and {city2}...",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="blue"
         )
         loading_label.pack(pady=10)
@@ -199,7 +199,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         error_label = ctk.CTkLabel(
             self.results_frame,
             text=f"❌ {message}",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="red"
         )
         error_label.pack(pady=10)
@@ -212,7 +212,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         comparison_header = ctk.CTkLabel(
             self.results_frame,
             text=f"Weather Comparison: {data1['name']} vs {data2['name']}",
-            font=("Arial", 16, "bold")
+            font=("Segoe UI", 16, "bold")
         )
         comparison_header.pack(pady=(0, 20))
 
@@ -221,13 +221,13 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         comparison_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         # Headers
-        ctk.CTkLabel(comparison_frame, text="Field", font=("Arial", 14, "bold")).grid(
+        ctk.CTkLabel(comparison_frame, text="Field", font=("Segoe UI", 14, "bold")).grid(
             row=0, column=0, padx=10, pady=5, sticky="w"
         )
-        ctk.CTkLabel(comparison_frame, text=data1['name'], font=("Arial", 14, "bold")).grid(
+        ctk.CTkLabel(comparison_frame, text=data1['name'], font=("Segoe UI", 14, "bold")).grid(
             row=0, column=1, padx=10, pady=5
         )
-        ctk.CTkLabel(comparison_frame, text=data2['name'], font=("Arial", 14, "bold")).grid(
+        ctk.CTkLabel(comparison_frame, text=data2['name'], font=("Segoe UI", 14, "bold")).grid(
             row=0, column=2, padx=10, pady=5
         )
 
@@ -244,21 +244,21 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         row = 1
         for field, display_name in field_mappings.items():
             # Field name
-            ctk.CTkLabel(comparison_frame, text=display_name, font=("Arial", 12)).grid(
+            ctk.CTkLabel(comparison_frame, text=display_name, font=("Segoe UI", 12)).grid(
                 row=row, column=0, padx=10, pady=2, sticky="w"
             )
 
             # City 1 value
             value1 = self.format_field_value(field, data1.get(field))
             color1 = self.get_field_color(field, data1.get(field), data2.get(field), is_first=True)
-            ctk.CTkLabel(comparison_frame, text=value1, font=("Arial", 12), text_color=color1).grid(
+            ctk.CTkLabel(comparison_frame, text=value1, font=("Segoe UI", 12), text_color=color1).grid(
                 row=row, column=1, padx=10, pady=2
             )
 
             # City 2 value
             value2 = self.format_field_value(field, data2.get(field))
             color2 = self.get_field_color(field, data2.get(field), data1.get(field), is_first=False)
-            ctk.CTkLabel(comparison_frame, text=value2, font=("Arial", 12), text_color=color2).grid(
+            ctk.CTkLabel(comparison_frame, text=value2, font=("Segoe UI", 12), text_color=color2).grid(
                 row=row, column=2, padx=10, pady=2
             )
 
@@ -326,7 +326,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         summary_label = ctk.CTkLabel(
             summary_frame,
             text="Comparison Summary",
-            font=("Arial", 14, "bold")
+            font=("Segoe UI", 14, "bold")
         )
         summary_label.pack(pady=(10, 5))
 
@@ -336,7 +336,7 @@ class GroupCitiesComparisonTab(ctk.CTkScrollableFrame):
         summary_content = ctk.CTkLabel(
             summary_frame,
             text=summary_text,
-            font=("Arial", 11),
+            font=("Segoe UI", 11),
             justify="left"
         )
         summary_content.pack(padx=20, pady=(5, 15))

@@ -20,7 +20,7 @@ class RecentAPICallsTab(ctk.CTkScrollableFrame):
         self.header = ctk.CTkLabel(
             self.main_frame,
             text="Recent API Calls Comparison",
-            font=("Arial", 20, "bold")
+            font=("Segoe UI", 20, "bold")
         )
         self.header.pack(pady=(0, 20))
 
@@ -37,7 +37,7 @@ class RecentAPICallsTab(ctk.CTkScrollableFrame):
         self.status_label = ctk.CTkLabel(
             self.chart_frame,
             text="Loading recent API calls...",
-            font=("Arial", 12),
+            font=("Segoe UI", 12),
             text_color="gray"
         )
         self.status_label.pack(pady=20)
