@@ -15,7 +15,7 @@ class WeatherDashboardTab(ctk.CTkFrame):
         # Welcome message
         welcome_label = ctk.CTkLabel(
             self,
-            text="Welcome to Weather Dashboard",
+            text="Welcome to WeatherFirst!",
             font=("Segoe UI", 20, "bold")
         )
         welcome_label.grid(row=0, column=0, columnspan=2, pady=10)
