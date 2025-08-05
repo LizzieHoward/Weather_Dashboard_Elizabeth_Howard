@@ -6,6 +6,7 @@ import customtkinter as ctk
 from src.GUI.weather_dashboard_tab import WeatherDashboardTab
 from src.GUI.weather_alerts_tab import WeatherAlertsTab
 from src.GUI.group_cities_comparison_tab import GroupCitiesComparisonTab
+from GUI.stat_graph_tab import RecentAPICallsTab
 
 class RootWindow(ctk.CTk):
     def __init__(self, controller=None):
@@ -43,6 +44,9 @@ class RootWindow(ctk.CTk):
 
         self.group_cities_comparison_tab = GroupCitiesComparisonTab(group_cities_tab_frame, controller=self.controller)
         self.group_cities_comparison_tab.pack(fill="both", expand=True)
+
+        self.stat_graph_tab = RecentAPICallsTab(self.tabview.add("Recent API Calls"))
+        self.stat_graph_tab.pack(fill="both", expand=True)
 
         # Set controller references
         if self.controller:

@@ -88,7 +88,7 @@ class RecentAPICallsTab(ctk.CTkScrollableFrame):
 
             ax.set_xlabel("API Call Time")
             ax.set_ylabel("Value")
-            ax.set_title("Last 3 API Calls: Temp, Humidity, Feels Like")
+            ax.set_title("Comparrison of Last 3 API Calls: Temperature, Humidity, & Feels Like")
             ax.legend()
             ax.grid(True)
             plt.tight_layout()
