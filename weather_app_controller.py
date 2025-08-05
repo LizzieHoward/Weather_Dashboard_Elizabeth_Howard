@@ -83,7 +83,7 @@ class WeatherAppController:
     """
 
     def __init__(self):
-        print("Welcome to the Weather Dashboard!")
+        print("Welcome to the WeatherFirst!")
 
         # Instantiate dependencies
         self.db = WeatherDB()

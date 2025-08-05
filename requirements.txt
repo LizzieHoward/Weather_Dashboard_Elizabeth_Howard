@@ -5,4 +5,9 @@ customtkinter
 matplotlib
 pandas
 dotenv
-sqlite3
+sqlite
+pylance 
+dotenv
+typing
+csv
+datetime

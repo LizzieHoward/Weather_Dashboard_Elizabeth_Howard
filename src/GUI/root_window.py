@@ -5,6 +5,8 @@ import customtkinter as ctk
 # Import your tabs
 from src.GUI.weather_dashboard_tab import WeatherDashboardTab
 from src.GUI.weather_alerts_tab import WeatherAlertsTab
+from src.GUI.group_cities_comparison_tab import GroupCitiesComparisonTab
+from GUI.stat_graph_tab import RecentAPICallsTab
 
 class RootWindow(ctk.CTk):
     def __init__(self, controller=None):
@@ -14,7 +16,7 @@ class RootWindow(ctk.CTk):
         # Window config
         ctk.set_appearance_mode("System")
         ctk.set_default_color_theme("blue")
-        self.title("Weather App")
+        self.title("WeatherFirst")
         self.geometry("1000x700")
         self.minsize(800, 500)
 
@@ -24,12 +26,15 @@ class RootWindow(ctk.CTk):
 
         # Add tabs
         self.add_tabs()
+        
+        # Set up tab change callback
+        self.tabview.configure(command=self.on_tab_changed)
 
     def add_tabs(self):
         # Create tab frames using CTkTabview
         dashboard_tab_frame = self.tabview.add("Weather Dashboard")
         alerts_tab_frame = self.tabview.add("Weather Alerts")
-
+        group_cities_tab_frame = self.tabview.add("Group Cities Comparison")
         # Create your custom tab widgets inside the tab frames
         self.dashboard_tab = WeatherDashboardTab(dashboard_tab_frame, controller=self.controller)
         self.dashboard_tab.pack(fill="both", expand=True)
@@ -37,9 +42,25 @@ class RootWindow(ctk.CTk):
         self.alerts_tab = WeatherAlertsTab(alerts_tab_frame, controller=self.controller)
         self.alerts_tab.pack(fill="both", expand=True)
 
+        self.group_cities_comparison_tab = GroupCitiesComparisonTab(group_cities_tab_frame, controller=self.controller)
+        self.group_cities_comparison_tab.pack(fill="both", expand=True)
+
+        self.stat_graph_tab = RecentAPICallsTab(self.tabview.add("Recent API Calls"))
+        self.stat_graph_tab.pack(fill="both", expand=True)
+
         # Set controller references
-        self.controller.dashboard_tab = self.dashboard_tab
-        self.controller.alerts_tab = self.alerts_tab
+        if self.controller:
+            self.controller.dashboard_tab = self.dashboard_tab
+            self.controller.alerts_tab = self.alerts_tab
+
+    def on_tab_changed(self):
+        """Called when tab selection changes"""
+        current_tab = self.tabview.get()
+        print(f"[DEBUG] Tab changed to: {current_tab}")
+        
+        if current_tab == "Weather Alerts":
+            # Trigger alerts refresh when alerts tab is selected
+            self.alerts_tab.on_tab_selected()
 
 if __name__ == "__main__":
     app = RootWindow()
