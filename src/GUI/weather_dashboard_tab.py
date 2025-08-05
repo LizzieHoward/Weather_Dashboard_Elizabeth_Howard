@@ -164,3 +164,8 @@ class WeatherDashboardTab(ctk.CTkFrame):
 
         error_window.grab_set()
         error_window.focus_force()
+
+    def on_tab_changed(self):
+        current_tab = self.tabview.get()
+        if current_tab == "Cities Comparison":
+            self.comparison_tab.on_tab_selected()
